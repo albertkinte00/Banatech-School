@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BanaTech School — School Management Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1120;
+  --ink-soft:#141B2D;
+  --paper:#F7F8FA;
+  --paper-dim:#EEF0F4;
+  --signal:#3D5AFE;
+  --signal-soft:#E8EAFF;
+  --signal-dim:#5B72FF;
+  --ok:#10B981;
+  --ok-soft:#DCFCE9;
+  --warn:#F59E0B;
+  --line:#E2E5EB;
+  --line-dark:rgba(255,255,255,0.1);
+  --muted:#94A3B8;
+  --muted-dark:#7A8BA6;
+  --white:#ffffff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.disp{font-family:'Space Grotesk',sans-serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+a{color:inherit;}
+img{max-width:100%;display:block;}
+
+/* ===== i18n ===== */
+[data-i18n]{display:inline;}
+html[data-lang="en"] [data-i18n-fr]{display:none !important;}
+html[data-lang="fr"] [data-i18n-en]{display:none !important;}
+
+/* ===== NAV ===== */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(247,248,250,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;height:68px;
+}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-mark{
+  width:34px;height:34px;border-radius:9px;
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.brand-mark::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--signal) 0%,transparent 60%);
+}
+.brand-mark span{color:var(--white);font-family:'Space Grotesk';font-weight:700;font-size:13px;position:relative;z-index:1;}
+.brand-name{font-family:'Space Grotesk';font-weight:700;font-size:1.05rem;letter-spacing:-0.01em;}
+.brand-name em{color:var(--signal);font-style:normal;}
+
+.nav-center{display:flex;gap:2.2rem;}
+.nav-center a{
+  font-size:0.875rem;font-weight:500;color:var(--ink);opacity:0.65;
+  text-decoration:none;transition:opacity 0.15s;
+}
+.nav-center a:hover{opacity:1;}
+
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.lang-switch{
+  display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;
+}
+.lang-switch button{
+  border:none;background:transparent;padding:0.4rem 0.7rem;font-size:0.78rem;
+  font-weight:700;cursor:pointer;color:var(--muted);font-family:'Inter';
+  transition:all .15s;
+}
+.lang-switch button.active{background:var(--ink);color:var(--white);}
+.btn-nav{
+  background:var(--ink);color:var(--white);padding:0.55rem 1.3rem;border-radius:7px;
+  font-size:0.85rem;font-weight:600;text-decoration:none;transition:background .15s;
+}
+.btn-nav:hover{background:var(--signal);}
+
+/* ===== HERO ===== */
+.hero{
+  padding:5.5rem 2.5rem 4rem;
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1.05fr 0.95fr;gap:3.5rem;align-items:center;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.75rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;
+  color:var(--signal);margin-bottom:1.3rem;
+}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--signal);}
+.hero h1{
+  font-family:'Space Grotesk';font-weight:700;
+  font-size:clamp(2.3rem,4vw,3.3rem);
+  line-height:1.08;letter-spacing:-0.02em;
+  margin-bottom:1.4rem;
+}
+.hero h1 .ul{
+  background:linear-gradient(transparent 62%, var(--signal-soft) 62%);
+}
+.hero-sub{
+  font-size:1.08rem;color:var(--muted);max-width:480px;margin-bottom:2.1rem;
+}
+.hero-actions{display:flex;gap:0.9rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-primary{
+  background:var(--ink);color:var(--white);padding:0.85rem 1.7rem;border-radius:8px;
+  font-weight:600;font-size:0.92rem;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;transition:all .18s;
+}
+.btn-primary:hover{background:var(--signal);transform:translateY(-1px);}
+.btn-secondary{
+  border:1.5px solid var(--line);color:var(--ink);padding:0.85rem 1.7rem;border-radius:8px;
+  font-weight:600;font-size:0.92rem;text-decoration:none;transition:all .18s;
+}
+.btn-secondary:hover{border-color:var(--ink);}
+.hero-trust{display:flex;gap:1.6rem;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:0.8rem;color:var(--muted);font-weight:500;}
+.trust-item svg{flex-shrink:0;}
+
+/* Console mockup */
+.console{
+  background:var(--ink);border-radius:16px;overflow:hidden;
+  box-shadow:0 30px 60px -20px rgba(11,17,32,0.35);
+  border:1px solid rgba(255,255,255,0.06);
+}
+.console-bar{
+  display:flex;align-items:center;gap:7px;padding:0.85rem 1.1rem;
+  background:var(--ink-soft);border-bottom:1px solid var(--line-dark);
+}
+.console-dot{width:10px;height:10px;border-radius:50%;}
+.console-bar span{
+  margin-left:auto;font-size:0.7rem;color:var(--muted-dark);font-family:'JetBrains Mono';
+}
+.console-body{padding:1.5rem 1.4rem 1.7rem;min-height:280px;}
+.console-line{font-family:'JetBrains Mono';font-size:0.825rem;line-height:1.85;color:#C8D0E0;}
+.console-line .c1{color:#5B72FF;}
+.console-line .c2{color:var(--ok);}
+.console-line .c3{color:var(--muted-dark);}
+.console-line .c4{color:#FBBF24;}
+.console-cursor{
+  display:inline-block;width:7px;height:15px;background:var(--signal);
+  animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px;
+}
+@keyframes blink{50%{opacity:0;}}
+.console-card{
+  margin-top:1.1rem;background:rgba(255,255,255,0.04);border:1px solid var(--line-dark);
+  border-radius:10px;padding:0.9rem 1rem;display:flex;align-items:center;gap:10px;
+  opacity:0;animation:fadeUp .5s ease forwards;animation-delay:2.6s;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.console-card .badge-ok{
+  width:22px;height:22px;border-radius:6px;background:var(--ok-soft);
+  display:flex;align-items:center;justify-content:center;color:var(--ok);font-size:12px;flex-shrink:0;
+}
+.console-card div{font-size:0.78rem;color:#C8D0E0;}
+.console-card strong{color:var(--white);display:block;font-size:0.83rem;margin-bottom:1px;}
+
+/* ===== LOGO / STAT STRIP ===== */
+.strip{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:2.2rem 2.5rem;background:var(--white);
+}
+.strip-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem;
+}
+.strip-stat{text-align:left;}
+.strip-num{font-family:'Space Grotesk';font-size:1.7rem;font-weight:700;letter-spacing:-0.02em;}
+.strip-label{font-size:0.78rem;color:var(--muted);margin-top:2px;}
+
+/* ===== SECTION SHELL ===== */
+section{padding:6rem 2.5rem;}
+.wrap{max-width:1280px;margin:0 auto;}
+.s-head{max-width:620px;margin-bottom:3.2rem;}
+.s-eyebrow{
+  font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--signal);margin-bottom:0.7rem;
+}
+.s-title{
+  font-family:'Space Grotesk';font-weight:700;font-size:clamp(1.7rem,2.6vw,2.2rem);
+  letter-spacing:-0.015em;margin-bottom:0.9rem;
+}
+.s-sub{color:var(--muted);font-size:1.02rem;}
+
+/* ===== HOW IT WORKS (3 acts) ===== */
+.acts{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.act{
+  background:var(--white);border:1px solid var(--line);border-radius:14px;
+  padding:2rem 1.8rem;position:relative;overflow:hidden;
+}
+.act-tag{
+  font-family:'JetBrains Mono';font-size:0.72rem;color:var(--signal);font-weight:600;
+  letter-spacing:0.04em;margin-bottom:1.3rem;display:block;
+}
+.act h3{font-family:'Space Grotesk';font-size:1.2rem;font-weight:600;margin-bottom:0.7rem;}
+.act p{color:var(--muted);font-size:0.9rem;margin-bottom:1.3rem;}
+.act-actors{display:flex;gap:6px;flex-wrap:wrap;}
+.actor-chip{
+  font-size:0.7rem;font-weight:600;padding:0.25rem 0.65rem;border-radius:100px;
+  background:var(--paper-dim);color:var(--ink);
+}
+.act::before{
+  content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;
+  border-radius:50%;background:var(--signal-soft);opacity:0.5;
+}
+
+/* ===== PRODUCT TABS ===== */
+#product{background:var(--ink);color:var(--white);}
+#product .s-eyebrow{color:#7C90FF;}
+#product .s-title{color:var(--white);}
+#product .s-sub{color:var(--muted-dark);}
+.ptabs{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2.4rem;}
+.ptab{
+  padding:0.6rem 1.15rem;border-radius:8px;border:1px solid var(--line-dark);
+  background:transparent;color:var(--muted-dark);font-size:0.84rem;font-weight:600;
+  cursor:pointer;transition:all .15s;font-family:'Inter';
+}
+.ptab.active,.ptab:hover{background:var(--signal);border-color:var(--signal);color:var(--white);}
+.ppanel{display:none;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;}
+.ppanel.active{display:grid;}
+.ppanel-list{list-style:none;}
+.ppanel-list li{
+  display:flex;gap:12px;padding:0.7rem 0;border-bottom:1px solid var(--line-dark);font-size:0.92rem;color:#D5DAE6;
+}
+.ppanel-list li:last-child{border:none;}
+.ppanel-list li b{color:var(--white);}
+.ppanel-list .num{
+  font-family:'JetBrains Mono';color:var(--signal-dim);font-size:0.8rem;flex-shrink:0;padding-top:1px;
+}
+.pvisual{
+  background:var(--ink-soft);border:1px solid var(--line-dark);border-radius:14px;padding:1.6rem;
+}
+.pv-label{font-family:'JetBrains Mono';font-size:0.68rem;color:var(--muted-dark);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:1rem;}
+.pv-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border-radius:8px;padding:0.6rem 0.8rem;margin-bottom:6px;}
+.pv-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.pv-bar{height:7px;border-radius:3px;background:rgba(255,255,255,0.1);flex:1;}
+.pv-bar-sm{height:7px;border-radius:3px;background:rgba(255,255,255,0.06);flex:0.5;}
+.pv-pill-ok{font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:10px;background:var(--ok-soft);color:#065F46;}
+.pv-pill-warn{font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:10px;background:#FEF3C7;color:#92400E;}
+.pv-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.pv-stat{background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;}
+.pv-stat-num{font-family:'Space Grotesk';font-size:1.25rem;font-weight:700;color:var(--white);}
+.pv-stat-label{font-size:7.5px;color:var(--muted-dark);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
+
+/* ===== SECURITY ===== */
+.sec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+.sec-card{background:var(--white);padding:1.8rem;}
+.sec-num{font-family:'JetBrains Mono';font-size:0.72rem;color:var(--signal);margin-bottom:0.9rem;}
+.sec-card h4{font-family:'Space Grotesk';font-size:1rem;font-weight:600;margin-bottom:0.5rem;}
+.sec-card p{font-size:0.86rem;color:var(--muted);}
+
+/* ===== STACK STRIP ===== */
+#stack{background:var(--paper-dim);}
+.stack-row{display:flex;flex-wrap:wrap;gap:0.7rem;}
+.stack-pill{
+  display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);
+  border-radius:100px;padding:0.55rem 1.2rem;font-size:0.84rem;font-weight:600;
+}
+.stack-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);}
+
+/* ===== PRICING ===== */
+#pricing{background:var(--white);}
+.billing-toggle{
+  display:inline-flex;align-items:center;gap:0.9rem;background:var(--paper-dim);
+  border-radius:100px;padding:0.35rem;margin-bottom:3rem;
+}
+.bt-btn{
+  border:none;background:transparent;padding:0.55rem 1.3rem;border-radius:100px;
+  font-size:0.85rem;font-weight:700;cursor:pointer;color:var(--muted);font-family:'Inter';
+  transition:all .18s;position:relative;
+}
+.bt-btn.active{background:var(--ink);color:var(--white);}
+.bt-save{
+  font-size:0.68rem;font-weight:700;color:var(--ok);background:var(--ok-soft);
+  padding:0.15rem 0.5rem;border-radius:100px;margin-left:6px;
+}
+.bt-btn.active .bt-save{background:rgba(255,255,255,0.15);color:#6EE7B7;}
+
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;align-items:stretch;}
+.price-card{
+  background:var(--white);border:1.5px solid var(--line);border-radius:16px;
+  padding:2.1rem 1.9rem;display:flex;flex-direction:column;position:relative;
+  transition:border-color .2s, transform .2s;
+}
+.price-card:hover{transform:translateY(-3px);}
+.price-card.featured{
+  border-color:var(--ink);box-shadow:0 20px 45px -18px rgba(11,17,32,0.25);
+}
+.price-pop{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--signal);color:white;font-size:0.7rem;font-weight:700;
+  padding:0.3rem 0.9rem;border-radius:100px;letter-spacing:0.02em;white-space:nowrap;
+}
+.price-tier-name{font-family:'Space Grotesk';font-size:1.05rem;font-weight:700;margin-bottom:0.3rem;}
+.price-tier-desc{font-size:0.83rem;color:var(--muted);margin-bottom:1.5rem;min-height:38px;}
+.price-amount{display:flex;align-items:baseline;gap:6px;margin-bottom:0.2rem;}
+.price-num{font-family:'Space Grotesk';font-size:2.3rem;font-weight:700;letter-spacing:-0.02em;}
+.price-unit{font-size:0.85rem;color:var(--muted);font-weight:600;}
+.price-annual-note{font-size:0.76rem;color:var(--muted);margin-bottom:1.6rem;min-height:18px;}
+.price-cta{
+  display:block;text-align:center;padding:0.75rem;border-radius:8px;
+  font-weight:700;font-size:0.88rem;text-decoration:none;margin-bottom:1.7rem;
+  transition:all .18s;
+}
+.price-card:not(.featured) .price-cta{border:1.5px solid var(--line);color:var(--ink);}
+.price-card:not(.featured) .price-cta:hover{border-color:var(--ink);}
+.price-card.featured .price-cta{background:var(--ink);color:var(--white);}
+.price-card.featured .price-cta:hover{background:var(--signal);}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:0.6rem;}
+.price-features li{
+  display:flex;gap:9px;align-items:flex-start;font-size:0.84rem;color:var(--ink);
+}
+.price-features li svg{flex-shrink:0;margin-top:2px;}
+.price-features li.dim{color:var(--muted);}
+.pricing-foot{
+  margin-top:2.3rem;font-size:0.83rem;color:var(--muted);text-align:center;
+}
+
+/* ===== CTA ===== */
+#cta{
+  background:var(--ink);color:var(--white);text-align:center;
+  position:relative;overflow:hidden;
+}
+#cta::before{
+  content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(61,90,254,0.18) 0%,transparent 70%);
+}
+#cta h2{font-family:'Space Grotesk';font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;margin-bottom:1rem;letter-spacing:-0.02em;position:relative;}
+#cta p{color:var(--muted-dark);margin-bottom:2rem;position:relative;}
+.cta-inner{position:relative;max-width:560px;margin:0 auto;}
+.cta-contact{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem;
+  margin-top:2.4rem;padding-top:1.8rem;border-top:1px solid var(--line-dark);
+}
+.cta-contact a,.cta-contact-text{
+  display:flex;align-items:center;gap:7px;font-size:0.82rem;color:var(--muted-dark);
+  text-decoration:none;transition:color .15s;
+}
+.cta-contact a:hover{color:var(--white);}
+.cta-contact svg{flex-shrink:0;}
+
+/* ===== FOOTER ===== */
+footer{padding:3.2rem 2.5rem 0;border-top:1px solid var(--line);}
+.foot-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:3rem;
+  padding-bottom:2.5rem;
+}
+.foot-col{display:flex;flex-direction:column;gap:0.65rem;}
+.foot-tagline{font-size:0.85rem;color:var(--muted);margin-top:0.6rem;max-width:240px;}
+.foot-col-title{
+  font-size:0.74rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;
+  color:var(--muted);margin-bottom:0.3rem;
+}
+.foot-col a,.foot-static{
+  font-size:0.85rem;color:var(--ink);text-decoration:none;opacity:0.75;transition:opacity .15s;
+}
+.foot-col a:hover{opacity:1;color:var(--signal);}
+.foot-static{opacity:0.75;}
+.foot-bottom{
+  border-top:1px solid var(--line);padding:1.4rem 0;max-width:1280px;margin:0 auto;
+}
+.foot-bottom p{font-size:0.8rem;color:var(--muted);}
+
+/* ===== CHATBOT ===== */
+#chat-toggle{
+  position:fixed;bottom:1.6rem;right:1.6rem;z-index:500;
+  width:58px;height:58px;border-radius:50%;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 12px 28px rgba(11,17,32,0.3);border:none;transition:transform .2s;
+}
+#chat-toggle:hover{transform:scale(1.06);}
+#chat-toggle svg{transition:opacity .15s;}
+#chat-toggle .icon-close{display:none;}
+#chat-toggle.open .icon-chat{display:none;}
+#chat-toggle.open .icon-close{display:block;}
+.chat-dot{
+  position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;
+  background:var(--signal);border:2px solid var(--paper);
+}
+
+#chat-window{
+  position:fixed;bottom:5.4rem;right:1.6rem;z-index:499;
+  width:370px;max-width:calc(100vw - 2.4rem);height:520px;max-height:calc(100vh - 8rem);
+  background:var(--white);border-radius:16px;border:1px solid var(--line);
+  box-shadow:0 24px 60px -12px rgba(11,17,32,0.25);
+  display:none;flex-direction:column;overflow:hidden;
+}
+#chat-window.open{display:flex;}
+.chat-head{
+  background:var(--ink);color:var(--white);padding:1.1rem 1.3rem;
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.chat-head .ai-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);}
+.chat-head-text strong{display:block;font-size:0.88rem;font-family:'Space Grotesk';}
+.chat-head-text span{font-size:0.72rem;color:var(--muted-dark);}
+.chat-body{flex:1;overflow-y:auto;padding:1.1rem;display:flex;flex-direction:column;gap:0.7rem;background:var(--paper);}
+.msg{max-width:84%;font-size:0.84rem;line-height:1.5;padding:0.65rem 0.9rem;border-radius:12px;}
+.msg-bot{background:var(--white);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:3px;}
+.msg-user{background:var(--ink);color:var(--white);align-self:flex-end;border-bottom-right-radius:3px;}
+.chat-suggestions{display:flex;flex-direction:column;gap:6px;padding:0 1.1rem 1rem;flex-shrink:0;background:var(--paper);}
+.sugg-label{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:700;margin-bottom:2px;}
+.sugg-btn{
+  text-align:left;background:var(--white);border:1px solid var(--line);border-radius:9px;
+  padding:0.55rem 0.8rem;font-size:0.8rem;cursor:pointer;transition:all .15s;font-family:'Inter';color:var(--ink);
+}
+.sugg-btn:hover{border-color:var(--signal);background:var(--signal-soft);}
+.chat-input-row{
+  display:flex;gap:8px;padding:0.85rem;border-top:1px solid var(--line);background:var(--white);flex-shrink:0;
+}
+.chat-input-row input{
+  flex:1;border:1px solid var(--line);border-radius:9px;padding:0.6rem 0.85rem;font-size:0.84rem;
+  font-family:'Inter';outline:none;
+}
+.chat-input-row input:focus{border-color:var(--signal);}
+.chat-input-row button{
+  background:var(--ink);color:var(--white);border:none;border-radius:9px;width:38px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+}
+.chat-input-row button:hover{background:var(--signal);}
+.typing{display:flex;gap:4px;padding:0.4rem 0;}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:tdot 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,60%,100%{opacity:0.3;}30%{opacity:1;}}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;padding:3.5rem 1.4rem;}
+  .acts,.sec-grid,.price-grid{grid-template-columns:1fr;}
+  .ppanel.active{grid-template-columns:1fr;}
+  .nav-center{display:none;}
+  nav{padding:0 1.4rem;}
+  section{padding:3.8rem 1.4rem;}
+  .strip-inner{justify-content:flex-start;}
+  #chat-window{width:calc(100vw - 2.4rem);}
+  .foot-inner{grid-template-columns:1fr;gap:2rem;}
+  footer{padding:2.6rem 1.4rem 0;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">
+    <div class="brand-mark"><span>BT</span></div>
+    <div class="brand-name">Bana<em>Tech</em></div>
+  </div>
+  <div class="nav-center">
+    <a href="#how"><span data-i18n-en>How it works</span><span data-i18n-fr>Fonctionnement</span></a>
+    <a href="#product"><span data-i18n-en>Product</span><span data-i18n-fr>Produit</span></a>
+    <a href="#security"><span data-i18n-en>Security</span><span data-i18n-fr>Sécurité</span></a>
+    <a href="#stack"><span data-i18n-en>Stack</span><span data-i18n-fr>Technologie</span></a>
+    <a href="#pricing"><span data-i18n-en>Pricing</span><span data-i18n-fr>Tarifs</span></a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button id="lang-en" class="active" onclick="setLang('en')">EN</button>
+      <button id="lang-fr" onclick="setLang('fr')">FR</button>
+    </div>
+    <a class="btn-nav" href="https://bana-tech-projet-school.vercel.app/login" target="_blank" rel="noopener"><span data-i18n-en>Get a demo</span><span data-i18n-fr>Demander une démo</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="eyebrow">
+      <span data-i18n-en>School Management, Reimagined for Africa</span>
+      <span data-i18n-fr>La gestion scolaire, repensée pour l'Afrique</span>
+    </div>
+    <h1>
+      <span data-i18n-en>One platform to run your <span class="ul">entire school</span></span>
+      <span data-i18n-fr>Une plateforme pour piloter <span class="ul">toute votre école</span></span>
+    </h1>
+    <p class="hero-sub">
+      <span data-i18n-en>BanaTech School replaces spreadsheets, paper ledgers and WhatsApp groups with one secure system for enrollment, payments, grading and report cards.</span>
+      <span data-i18n-fr>BanaTech School remplace les tableurs, les cahiers et les groupes WhatsApp par un seul système sécurisé pour les inscriptions, les paiements, les notes et les bulletins.</span>
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">
+        <span data-i18n-en>Start free trial</span><span data-i18n-fr>Essai gratuit</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#product" class="btn-secondary"><span data-i18n-en>See the product</span><span data-i18n-fr>Voir le produit</span></a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span data-i18n-en>30-day free trial</span><span data-i18n-fr>Essai gratuit de 30 jours</span>
+      </div>
+      <div class="trust-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span data-i18n-en>No credit card required</span><span data-i18n-fr>Sans carte bancaire</span>
+      </div>
+      <div class="trust-item">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span data-i18n-en>Data isolated per school</span><span data-i18n-fr>Données isolées par école</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="console-bar">
+      <div class="console-dot" style="background:#FF5F57;"></div>
+      <div class="console-dot" style="background:#FEBC2E;"></div>
+      <div class="console-dot" style="background:#28C840;"></div>
+      <span>banatech — promotion.run</span>
+    </div>
+    <div class="console-body">
+      <div class="console-line"><span class="c3">$</span> <span class="c1">school</span>.checkPromotion(student_id)</div>
+      <div class="console-line"><span class="c3">→</span> average: <span class="c4">15.4 / 20</span> · rank: <span class="c4">2 / 34</span></div>
+      <div class="console-line">&nbsp;</div>
+      <div class="console-line"><span class="c3">$</span> <span class="c1">director</span>.validate(promotion)</div>
+      <div class="console-line"><span class="c2">✓</span> <span class="c2">status: approved</span></div>
+      <div class="console-line">&nbsp;</div>
+      <div class="console-line"><span class="c3">$</span> <span class="c1">reportCard</span>.generate()<span class="console-cursor"></span></div>
+      <div class="console-card">
+        <div class="badge-ok">✓</div>
+        <div><strong>Report_Card_2025_T2.pdf</strong><span data-i18n-en>Generated & ready to download</span><span data-i18n-fr>Généré et prêt au téléchargement</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-inner">
+    <div class="strip-stat">
+      <div class="strip-num">5</div>
+      <div class="strip-label"><span data-i18n-en>User roles</span><span data-i18n-fr>Rôles utilisateur</span></div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">100%</div>
+      <div class="strip-label"><span data-i18n-en>Multi-tenant isolation</span><span data-i18n-fr>Isolation multi-tenant</span></div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">JWT</div>
+      <div class="strip-label"><span data-i18n-en>Secure authentication</span><span data-i18n-fr>Authentification sécurisée</span></div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">PDF</div>
+      <div class="strip-label"><span data-i18n-en>Report cards & receipts</span><span data-i18n-fr>Bulletins & reçus</span></div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-num">24/7</div>
+      <div class="strip-label"><span data-i18n-en>Cloud availability</span><span data-i18n-fr>Disponibilité cloud</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-eyebrow"><span data-i18n-en>How it works</span><span data-i18n-fr>Fonctionnement</span></div>
+      <h2 class="s-title"><span data-i18n-en>Three acts, one school year</span><span data-i18n-fr>Trois actes, une année scolaire</span></h2>
+      <p class="s-sub"><span data-i18n-en>Every role plays its part — the platform keeps them in sync from day one to the final report card.</span><span data-i18n-fr>Chaque rôle joue sa partition — la plateforme les garde synchronisés du premier jour au dernier bulletin.</span></p>
+    </div>
+    <div class="acts">
+      <div class="act">
+        <span class="act-tag">ACT 01 — <span data-i18n-en>SETUP</span><span data-i18n-fr>RENTRÉE</span></span>
+        <h3><span data-i18n-en>Enroll & configure</span><span data-i18n-fr>Inscrire & configurer</span></h3>
+        <p><span data-i18n-en>Directors set tuition fees and classes. Managers enroll students and register payments as families pay.</span><span data-i18n-fr>Les directeurs configurent les frais et les classes. Les gestionnaires inscrivent les élèves et enregistrent les paiements.</span></p>
+        <div class="act-actors">
+          <span class="actor-chip">Director</span><span class="actor-chip">Manager</span>
+        </div>
+      </div>
+      <div class="act">
+        <span class="act-tag">ACT 02 — <span data-i18n-en>TERM</span><span data-i18n-fr>TRIMESTRE</span></span>
+        <h3><span data-i18n-en>Teach & track</span><span data-i18n-fr>Enseigner & suivre</span></h3>
+        <p><span data-i18n-en>Teachers enter grades and attendance per subject. Managers monitor outstanding balances in real time.</span><span data-i18n-fr>Les professeurs saisissent notes et absences par matière. Les gestionnaires suivent les dettes en temps réel.</span></p>
+        <div class="act-actors">
+          <span class="actor-chip">Teacher</span><span class="actor-chip">Manager</span>
+        </div>
+      </div>
+      <div class="act">
+        <span class="act-tag">ACT 03 — <span data-i18n-en>RESULTS</span><span data-i18n-fr>RÉSULTATS</span></span>
+        <h3><span data-i18n-en>Validate & publish</span><span data-i18n-fr>Valider & publier</span></h3>
+        <p><span data-i18n-en>Teachers submit promotions, directors approve them, and parents download official report cards.</span><span data-i18n-fr>Les professeurs soumettent les promotions, les directeurs valident, et les parents téléchargent les bulletins officiels.</span></p>
+        <div class="act-actors">
+          <span class="actor-chip">Director</span><span class="actor-chip">Parent</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-eyebrow"><span data-i18n-en>Product</span><span data-i18n-fr>Produit</span></div>
+      <h2 class="s-title"><span data-i18n-en>Built around real school operations</span><span data-i18n-fr>Conçu autour des opérations réelles de l'école</span></h2>
+      <p class="s-sub"><span data-i18n-en>Four core workflows, each designed with the people who actually use them every day.</span><span data-i18n-fr>Quatre flux de travail essentiels, conçus avec les personnes qui les utilisent au quotidien.</span></p>
+    </div>
+
+    <div class="ptabs">
+      <button class="ptab active" onclick="showPTab('auth',this)"><span data-i18n-en>Authentication</span><span data-i18n-fr>Authentification</span></button>
+      <button class="ptab" onclick="showPTab('students',this)"><span data-i18n-en>Students</span><span data-i18n-fr>Élèves</span></button>
+      <button class="ptab" onclick="showPTab('finance',this)"><span data-i18n-en>Finance</span><span data-i18n-fr>Finances</span></button>
+      <button class="ptab" onclick="showPTab('reports',this)"><span data-i18n-en>Report cards</span><span data-i18n-fr>Bulletins</span></button>
+    </div>
+
+    <div class="ppanel active" id="p-auth">
+      <ul class="ppanel-list">
+        <li><span class="num">01</span><span><b data-i18n-en>Role-based login</b><span data-i18n-fr><b>Connexion par rôle</b></span><br data-i18n-en><span data-i18n-en>— automatic redirect to the right dashboard.</span><span data-i18n-fr> — redirection automatique vers le bon tableau de bord.</span></span></li>
+        <li><span class="num">02</span><span data-i18n-en><b>JWT tokens</b> with configurable expiry, no server-side session storage.</span><span data-i18n-fr><b>Jetons JWT</b> avec expiration configurable, aucune session stockée côté serveur.</span></li>
+        <li><span class="num">03</span><span data-i18n-en><b>Brute-force protection</b> locks accounts after repeated failed attempts.</span><span data-i18n-fr><b>Protection brute-force</b> qui verrouille les comptes après plusieurs échecs.</span></li>
+        <li><span class="num">04</span><span data-i18n-en><b>WhatsApp credential sharing</b> for onboarding new staff and parents.</span><span data-i18n-fr><b>Partage des identifiants par WhatsApp</b> pour intégrer le personnel et les parents.</span></li>
+      </ul>
+      <div class="pvisual">
+        <div class="pv-label">SESSION / LOG</div>
+        <div class="console-line" style="font-size:0.78rem;"><span class="c3">$</span> POST /auth/login</div>
+        <div class="console-line" style="font-size:0.78rem;"><span class="c2">200</span> role: director · school: valid</div>
+        <div class="pv-row"><div class="pv-dot" style="background:#3D5AFE;"></div><div class="pv-bar"></div><span class="pv-pill-ok">ACTIVE</span></div>
+        <div class="pv-row"><div class="pv-dot" style="background:#3D5AFE;"></div><div class="pv-bar"></div><span class="pv-pill-ok">ACTIVE</span></div>
+        <div class="pv-row"><div class="pv-dot" style="background:#F59E0B;"></div><div class="pv-bar-sm"></div><span class="pv-pill-warn">EXPIRING</span></div>
+      </div>
+    </div>
+
+    <div class="ppanel" id="p-students">
+      <ul class="ppanel-list">
+        <li><span class="num">01</span><span data-i18n-en><b>Enrollment</b> with full student profile and class assignment.</span><span data-i18n-fr><b>Inscription</b> avec profil complet et affectation de classe.</span></li>
+        <li><span class="num">02</span><span data-i18n-en><b>Grading</b> by subject and term, with automatic averages.</span><span data-i18n-fr><b>Notation</b> par matière et trimestre, moyennes calculées automatiquement.</span></li>
+        <li><span class="num">03</span><span data-i18n-en><b>Two-step promotion</b> — teacher proposes, director approves.</span><span data-i18n-fr><b>Promotion en deux étapes</b> — le professeur propose, le directeur valide.</span></li>
+        <li><span class="num">04</span><span data-i18n-en><b>Enrollment locking</b> to close registration after a deadline.</span><span data-i18n-fr><b>Verrouillage des inscriptions</b> après une date limite.</span></li>
+      </ul>
+      <div class="pvisual">
+        <div class="pv-label">CLASS 5A — <span data-i18n-en>PROMOTION STATUS</span><span data-i18n-fr>STATUT DE PROMOTION</span></div>
+        <div class="pv-row"><div class="pv-dot" style="background:#10B981;"></div><div class="pv-bar"></div><span class="pv-pill-ok">PASS</span></div>
+        <div class="pv-row"><div class="pv-dot" style="background:#10B981;"></div><div class="pv-bar"></div><span class="pv-pill-ok">PASS</span></div>
+        <div class="pv-row"><div class="pv-dot" style="background:#F59E0B;"></div><div class="pv-bar"></div><span class="pv-pill-warn">REVIEW</span></div>
+        <div class="pv-row"><div class="pv-dot" style="background:#10B981;"></div><div class="pv-bar"></div><span class="pv-pill-ok">PASS</span></div>
+        <div class="pv-grid2">
+          <div class="pv-stat"><div class="pv-stat-num">34</div><div class="pv-stat-label"><span data-i18n-en>STUDENTS</span><span data-i18n-fr>ÉLÈVES</span></div></div>
+          <div class="pv-stat"><div class="pv-stat-num">91%</div><div class="pv-stat-label"><span data-i18n-en>PASS RATE</span><span data-i18n-fr>RÉUSSITE</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ppanel" id="p-finance">
+      <ul class="ppanel-list">
+        <li><span class="num">01</span><span data-i18n-en><b>Fee configuration</b> by class, level and academic period.</span><span data-i18n-fr><b>Configuration des frais</b> par classe, niveau et période.</span></li>
+        <li><span class="num">02</span><span data-i18n-en><b>Payment recording</b> with instant receipt generation.</span><span data-i18n-fr><b>Enregistrement des paiements</b> avec génération instantanée des reçus.</span></li>
+        <li><span class="num">03</span><span data-i18n-en><b>Automatic debt calculation</b> per student and per family.</span><span data-i18n-fr><b>Calcul automatique des dettes</b> par élève et par famille.</span></li>
+        <li><span class="num">04</span><span data-i18n-en><b>Collection dashboard</b> with real-time recovery rate.</span><span data-i18n-fr><b>Tableau de bord</b> avec taux de recouvrement en temps réel.</span></li>
+      </ul>
+      <div class="pvisual">
+        <div class="pv-label"><span data-i18n-en>COLLECTION OVERVIEW</span><span data-i18n-fr>VUE D'ENSEMBLE FINANCIÈRE</span></div>
+        <div class="pv-grid2">
+          <div class="pv-stat"><div class="pv-stat-num" style="color:#34D399;">847K</div><div class="pv-stat-label"><span data-i18n-en>COLLECTED</span><span data-i18n-fr>ENCAISSÉ</span></div></div>
+          <div class="pv-stat"><div class="pv-stat-num" style="color:#FBBF24;">213K</div><div class="pv-stat-label"><span data-i18n-en>PENDING</span><span data-i18n-fr>EN ATTENTE</span></div></div>
+        </div>
+        <div style="margin-top:12px;">
+          <div class="pv-label" style="margin-bottom:6px;">80% <span data-i18n-en>RECOVERY RATE</span><span data-i18n-fr>TAUX DE RECOUVREMENT</span></div>
+          <div style="height:7px;border-radius:4px;background:rgba(255,255,255,0.08);overflow:hidden;"><div style="height:100%;width:80%;background:#3D5AFE;border-radius:4px;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ppanel" id="p-reports">
+      <ul class="ppanel-list">
+        <li><span class="num">01</span><span data-i18n-en><b>Branded layout</b> with the school's name and logo.</span><span data-i18n-fr><b>Mise en page personnalisée</b> avec le nom et le logo de l'école.</span></li>
+        <li><span class="num">02</span><span data-i18n-en><b>Per-subject grades</b>, term averages, and class rank.</span><span data-i18n-fr><b>Notes par matière</b>, moyennes trimestrielles et rang dans la classe.</span></li>
+        <li><span class="num">03</span><span data-i18n-en><b>Individual download</b> for parents, anytime.</span><span data-i18n-fr><b>Téléchargement individuel</b> pour les parents, à tout moment.</span></li>
+        <li><span class="num">04</span><span data-i18n-en><b>Bulk export</b> — directors download an entire class as a ZIP.</span><span data-i18n-fr><b>Export en masse</b> — le directeur télécharge toute une classe en ZIP.</span></li>
+      </ul>
+      <div class="pvisual">
+        <div class="pv-label"><span data-i18n-en>REPORT CARD — TERM 2</span><span data-i18n-fr>BULLETIN — TRIMESTRE 2</span></div>
+        <div class="pv-row"><div class="pv-bar" style="flex:0.4;"></div><div class="pv-bar-sm"></div><span class="pv-pill-ok">14.5</span></div>
+        <div class="pv-row"><div class="pv-bar" style="flex:0.4;"></div><div class="pv-bar-sm"></div><span class="pv-pill-ok">16.0</span></div>
+        <div class="pv-row"><div class="pv-bar" style="flex:0.4;"></div><div class="pv-bar-sm"></div><span class="pv-pill-ok">13.8</span></div>
+        <div class="pv-grid2">
+          <div class="pv-stat"><div class="pv-stat-num">15.0</div><div class="pv-stat-label"><span data-i18n-en>AVERAGE</span><span data-i18n-fr>MOYENNE</span></div></div>
+          <div class="pv-stat"><div class="pv-stat-num">2/34</div><div class="pv-stat-label"><span data-i18n-en>RANK</span><span data-i18n-fr>RANG</span></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section id="security">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-eyebrow"><span data-i18n-en>Security</span><span data-i18n-fr>Sécurité</span></div>
+      <h2 class="s-title"><span data-i18n-en>Every school, completely isolated</span><span data-i18n-fr>Chaque école, totalement isolée</span></h2>
+      <p class="s-sub"><span data-i18n-en>Multi-tenant by design — your data never mixes with another school's, ever.</span><span data-i18n-fr>Multi-tenant par conception — vos données ne se mélangent jamais avec celles d'une autre école.</span></p>
+    </div>
+    <div class="sec-grid">
+      <div class="sec-card">
+        <div class="sec-num">01</div>
+        <h4><span data-i18n-en>Tenant isolation</span><span data-i18n-fr>Isolation par tenant</span></h4>
+        <p><span data-i18n-en>Every query is filtered by school_id — no cross-school data access is possible.</span><span data-i18n-fr>Chaque requête est filtrée par school_id — aucun accès aux données d'une autre école.</span></p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-num">02</div>
+        <h4><span data-i18n-en>JWT authentication</span><span data-i18n-fr>Authentification JWT</span></h4>
+        <p><span data-i18n-en>Signed, stateless tokens carry role and tenant context on every request.</span><span data-i18n-fr>Des jetons signés et sans état transportent le rôle et le contexte tenant.</span></p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-num">03</div>
+        <h4><span data-i18n-en>Rate limiting</span><span data-i18n-fr>Limitation de débit</span></h4>
+        <p><span data-i18n-en>Requests are throttled per IP and endpoint to prevent abuse.</span><span data-i18n-fr>Les requêtes sont limitées par IP et par endpoint pour prévenir les abus.</span></p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-num">04</div>
+        <h4><span data-i18n-en>Hardened headers</span><span data-i18n-fr>En-têtes durcis</span></h4>
+        <p><span data-i18n-en>Helmet.js applies secure HTTP headers against XSS and clickjacking.</span><span data-i18n-fr>Helmet.js applique des en-têtes HTTP sécurisés contre le XSS et le clickjacking.</span></p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-num">05</div>
+        <h4><span data-i18n-en>Subscription checks</span><span data-i18n-fr>Vérification d'abonnement</span></h4>
+        <p><span data-i18n-en>Access is blocked instantly if a school's subscription is suspended.</span><span data-i18n-fr>L'accès est bloqué instantanément si l'abonnement est suspendu.</span></p>
+      </div>
+      <div class="sec-card">
+        <div class="sec-num">06</div>
+        <h4><span data-i18n-en>Encrypted in transit</span><span data-i18n-fr>Chiffrement en transit</span></h4>
+        <p><span data-i18n-en>All traffic is encrypted with TLS — no sensitive data ever travels in plain text.</span><span data-i18n-fr>Tout le trafic est chiffré en TLS — aucune donnée sensible en clair.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-eyebrow"><span data-i18n-en>Stack</span><span data-i18n-fr>Technologie</span></div>
+      <h2 class="s-title"><span data-i18n-en>Built on proven technology</span><span data-i18n-fr>Construit sur une technologie éprouvée</span></h2>
+    </div>
+    <div class="stack-row">
+      <div class="stack-pill"><span class="dot"></span>React.js</div>
+      <div class="stack-pill"><span class="dot"></span>Node.js / Express</div>
+      <div class="stack-pill"><span class="dot"></span>MongoDB</div>
+      <div class="stack-pill"><span class="dot"></span>Supabase</div>
+      <div class="stack-pill"><span class="dot"></span>Docker</div>
+      <div class="stack-pill"><span class="dot"></span>JWT</div>
+      <div class="stack-pill"><span class="dot"></span>jsPDF / ReportLab</div>
+      <div class="stack-pill"><span class="dot"></span>Helmet.js</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="s-head" style="margin-bottom:2.2rem;">
+      <div class="s-eyebrow"><span data-i18n-en>Pricing</span><span data-i18n-fr>Tarifs</span></div>
+      <h2 class="s-title"><span data-i18n-en>One price per school, no surprises</span><span data-i18n-fr>Un prix par école, sans surprise</span></h2>
+      <p class="s-sub"><span data-i18n-en>Flat monthly pricing based on school size — not per student, not per teacher.</span><span data-i18n-fr>Un forfait fixe selon la taille de l'école — pas de coût par élève ni par professeur.</span></p>
+    </div>
+
+    <div class="billing-toggle">
+      <button class="bt-btn active" id="bt-monthly" onclick="setBilling('monthly')">
+        <span data-i18n-en>Monthly</span><span data-i18n-fr>Mensuel</span>
+      </button>
+      <button class="bt-btn" id="bt-annual" onclick="setBilling('annual')">
+        <span data-i18n-en>Annual</span><span data-i18n-fr>Annuel</span>
+        <span class="bt-save">-17%</span>
+      </button>
+    </div>
+
+    <div class="price-grid">
+
+      <!-- STARTER -->
+      <div class="price-card">
+        <div class="price-tier-name"><span data-i18n-en>Starter</span><span data-i18n-fr>Démarrage</span></div>
+        <div class="price-tier-desc"><span data-i18n-en>Up to 150 students — small or new schools.</span><span data-i18n-fr>Jusqu'à 150 élèves — petites écoles ou structures récentes.</span></div>
+        <div class="price-amount">
+          <span class="price-num" data-monthly="20 000" data-annual="16 600">20 000</span>
+          <span class="price-unit">FCFA<span data-i18n-en>/month</span><span data-i18n-fr>/mois</span></span>
+        </div>
+        <div class="price-annual-note" data-annual-text>
+          <span data-i18n-en>Billed 199 200 FCFA / year</span><span data-i18n-fr>Facturé 199 200 FCFA / an</span>
+        </div>
+        <a href="#cta" class="price-cta"><span data-i18n-en>Start free trial</span><span data-i18n-fr>Essai gratuit</span></a>
+        <ul class="price-features">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Up to 150 students</span><span data-i18n-fr>Jusqu'à 150 élèves</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>1 manager + 5 teacher accounts</span><span data-i18n-fr>1 compte gestionnaire + 5 comptes professeur</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Enrollment & grading</span><span data-i18n-fr>Inscriptions & notes</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Individual report cards (PDF)</span><span data-i18n-fr>Bulletins individuels (PDF)</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Payment tracking</span><span data-i18n-fr>Suivi des paiements</span></span></li>
+          <li class="dim"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#CBD2DC" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg><span><span data-i18n-en>Bulk report card export</span><span data-i18n-fr>Export en masse des bulletins</span></span></li>
+        </ul>
+      </div>
+
+      <!-- GROWTH -->
+      <div class="price-card featured">
+        <div class="price-pop"><span data-i18n-en>Most popular</span><span data-i18n-fr>Le plus choisi</span></div>
+        <div class="price-tier-name"><span data-i18n-en>Growth</span><span data-i18n-fr>Croissance</span></div>
+        <div class="price-tier-desc"><span data-i18n-en>150–500 students — established schools with multiple grade levels.</span><span data-i18n-fr>150 à 500 élèves — écoles établies avec plusieurs niveaux.</span></div>
+        <div class="price-amount">
+          <span class="price-num" data-monthly="45 000" data-annual="37 500">45 000</span>
+          <span class="price-unit">FCFA<span data-i18n-en>/month</span><span data-i18n-fr>/mois</span></span>
+        </div>
+        <div class="price-annual-note" data-annual-text>
+          <span data-i18n-en>Billed 450 000 FCFA / year</span><span data-i18n-fr>Facturé 450 000 FCFA / an</span>
+        </div>
+        <a href="#cta" class="price-cta"><span data-i18n-en>Start free trial</span><span data-i18n-fr>Essai gratuit</span></a>
+        <ul class="price-features">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Up to 500 students</span><span data-i18n-fr>Jusqu'à 500 élèves</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>3 manager + unlimited teacher accounts</span><span data-i18n-fr>3 comptes gestionnaire + professeurs illimités</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Everything in Starter</span><span data-i18n-fr>Tout ce qui est dans Démarrage</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Bulk report card export (ZIP)</span><span data-i18n-fr>Export en masse des bulletins (ZIP)</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Financial dashboard & reports</span><span data-i18n-fr>Tableau de bord financier & rapports</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Priority support</span><span data-i18n-fr>Support prioritaire</span></span></li>
+        </ul>
+      </div>
+
+      <!-- SCALE -->
+      <div class="price-card">
+        <div class="price-tier-name"><span data-i18n-en>Scale</span><span data-i18n-fr>Établissement</span></div>
+        <div class="price-tier-desc"><span data-i18n-en>500+ students or multiple campuses — full institutions.</span><span data-i18n-fr>500+ élèves ou plusieurs campus — grands établissements.</span></div>
+        <div class="price-amount">
+          <span class="price-num" data-monthly="90 000" data-annual="75 000">90 000</span>
+          <span class="price-unit">FCFA<span data-i18n-en>/month</span><span data-i18n-fr>/mois</span></span>
+        </div>
+        <div class="price-annual-note" data-annual-text>
+          <span data-i18n-en>Billed 900 000 FCFA / year</span><span data-i18n-fr>Facturé 900 000 FCFA / an</span>
+        </div>
+        <a href="#cta" class="price-cta"><span data-i18n-en>Talk to sales</span><span data-i18n-fr>Contacter l'équipe</span></a>
+        <ul class="price-features">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Unlimited students</span><span data-i18n-fr>Élèves illimités</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Unlimited staff accounts</span><span data-i18n-fr>Comptes du personnel illimités</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Everything in Growth</span><span data-i18n-fr>Tout ce qui est dans Croissance</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Multi-campus support</span><span data-i18n-fr>Support multi-campus</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Custom branding on report cards</span><span data-i18n-fr>Personnalisation des bulletins</span></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg><span><span data-i18n-en>Dedicated onboarding</span><span data-i18n-fr>Accompagnement dédié</span></span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p class="pricing-foot">
+      <span data-i18n-en>All plans include a 30-day free trial, no credit card required. Prices in FCFA, excluding tax.</span>
+      <span data-i18n-fr>Tous les forfaits incluent un essai gratuit de 30 jours, sans carte bancaire. Prix en FCFA, hors taxes.</span>
+    </p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <h2><span data-i18n-en>Ready to run your school on BanaTech?</span><span data-i18n-fr>Prêt à piloter votre école avec BanaTech ?</span></h2>
+    <p><span data-i18n-en>Start your 30-day free trial. No credit card, no setup fees.</span><span data-i18n-fr>Démarrez votre essai gratuit de 30 jours. Sans carte bancaire, sans frais d'installation.</span></p>
+    <div style="display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap;">
+      <a href="https://bana-tech-projet-school.vercel.app/login" target="_blank" rel="noopener" class="btn-primary" style="background:var(--signal);"><span data-i18n-en>Start free trial</span><span data-i18n-fr>Essai gratuit</span></a>
+      <a href="mailto:albertkintsodiza@gmail.com" class="btn-secondary" style="border-color:rgba(255,255,255,0.2);color:white;"><span data-i18n-en>Talk to sales</span><span data-i18n-fr>Contacter l'équipe</span></a>
+    </div>
+    <div class="cta-contact">
+      <a href="https://bana-tech-projet-school.vercel.app/login" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        bana-tech-projet-school.vercel.app
+      </a>
+      <a href="mailto:albertkintsodiza@gmail.com">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4V4zm0 0l8 8 8-8"/></svg>
+        albertkintsodiza@gmail.com
+      </a>
+      <a href="tel:+242065395923">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.36 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +242 06 539 5923
+      </a>
+      <span class="cta-contact-text">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Brazzaville, <span data-i18n-en>Congo</span><span data-i18n-fr>Congo</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-col">
+      <div class="brand">
+        <div class="brand-mark"><span>BT</span></div>
+        <div class="brand-name">Bana<em>Tech</em></div>
+      </div>
+      <p class="foot-tagline"><span data-i18n-en>School management, reimagined for Africa.</span><span data-i18n-fr>La gestion scolaire, repensée pour l'Afrique.</span></p>
+    </div>
+    <div class="foot-col">
+      <div class="foot-col-title"><span data-i18n-en>Product</span><span data-i18n-fr>Produit</span></div>
+      <a href="https://bana-tech-projet-school.vercel.app/login" target="_blank" rel="noopener"><span data-i18n-en>Open the app</span><span data-i18n-fr>Ouvrir l'application</span></a>
+      <a href="#pricing"><span data-i18n-en>Pricing</span><span data-i18n-fr>Tarifs</span></a>
+      <a href="#security"><span data-i18n-en>Security</span><span data-i18n-fr>Sécurité</span></a>
+    </div>
+    <div class="foot-col">
+      <div class="foot-col-title"><span data-i18n-en>Contact</span><span data-i18n-fr>Contact</span></div>
+      <a href="mailto:albertkintsodiza@gmail.com">albertkintsodiza@gmail.com</a>
+      <a href="tel:+242065395923">+242 06 539 5923</a>
+      <span class="foot-static">Brazzaville, Congo</span>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 BanaTech School. <span data-i18n-en>All rights reserved.</span><span data-i18n-fr>Tous droits réservés.</span></p>
+  </div>
+</footer>
+
+<!-- CHATBOT -->
+<button id="chat-toggle" onclick="toggleChat()">
+  <svg class="icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+  <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.3"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  <div class="chat-dot"></div>
+</button>
+
+<div id="chat-window">
+  <div class="chat-head">
+    <div class="ai-dot"></div>
+    <div class="chat-head-text">
+      <strong><span data-i18n-en>BanaTech Assistant</span><span data-i18n-fr>Assistant BanaTech</span></strong>
+      <span data-i18n-en>Answers from our FAQ</span><span data-i18n-fr>Réponses issues de notre FAQ</span>
+    </div>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="msg msg-bot">
+      <span data-i18n-en>Hi! I can answer common questions about BanaTech School. Pick one below or type your own.</span>
+      <span data-i18n-fr>Bonjour ! Je peux répondre aux questions courantes sur BanaTech School. Choisissez ci-dessous ou écrivez la vôtre.</span>
+    </div>
+  </div>
+  <div class="chat-suggestions" id="chat-suggestions">
+    <div class="sugg-label"><span data-i18n-en>Suggested questions</span><span data-i18n-fr>Questions suggérées</span></div>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="" />
+    <button onclick="sendChat()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.3"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+function setLang(l){
+  document.documentElement.setAttribute('data-lang', l);
+  document.getElementById('lang-en').classList.toggle('active', l==='en');
+  document.getElementById('lang-fr').classList.toggle('active', l==='fr');
+  document.getElementById('chat-input').placeholder = l==='en' ? 'Ask a question…' : 'Posez une question…';
+  renderSuggestions();
+}
+
+function setBilling(mode){
+  document.getElementById('bt-monthly').classList.toggle('active', mode==='monthly');
+  document.getElementById('bt-annual').classList.toggle('active', mode==='annual');
+  document.querySelectorAll('.price-num').forEach(el=>{
+    el.textContent = mode==='monthly' ? el.dataset.monthly : el.dataset.annual;
+  });
+  document.querySelectorAll('[data-annual-text]').forEach(el=>{
+    el.style.visibility = mode==='annual' ? 'visible' : 'hidden';
+  });
+}
+setBilling('monthly');
+
+function showPTab(id, btn){
+  document.querySelectorAll('.ppanel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ===== CHATBOT FAQ ===== */
+const FAQ = [
+  {
+    q: {en:"What is BanaTech School?", fr:"Qu'est-ce que BanaTech School ?"},
+    a: {en:"BanaTech School is a SaaS platform that centralizes enrollment, payments, grading and report cards for private schools in Africa, accessible from any browser.",
+        fr:"BanaTech School est une plateforme SaaS qui centralise les inscriptions, paiements, notes et bulletins des écoles privées en Afrique, accessible depuis n'importe quel navigateur."}
+  },
+  {
+    q: {en:"Which roles are supported?", fr:"Quels rôles sont supportés ?"},
+    a: {en:"Five roles: SuperAdmin (platform-wide), Director (school admin), Manager (enrollment & payments), Teacher (grades & attendance), and Parent (results & report cards).",
+        fr:"Cinq rôles : SuperAdmin (plateforme entière), Directeur (administration de l'école), Gestionnaire (inscriptions & paiements), Professeur (notes & absences), et Parent (résultats & bulletins)."}
+  },
+  {
+    q: {en:"How does student promotion work?", fr:"Comment fonctionne la promotion des élèves ?"},
+    a: {en:"It's a two-step process: the teacher submits a promotion proposal based on grades, then the director reviews and approves it before results are published.",
+        fr:"C'est un processus en deux étapes : le professeur soumet une proposition de promotion selon les notes, puis le directeur l'examine et la valide avant publication des résultats."}
+  },
+  {
+    q: {en:"How are payments tracked?", fr:"Comment les paiements sont-ils suivis ?"},
+    a: {en:"Managers record each payment as it's received. The system automatically calculates outstanding balances and shows a real-time collection rate dashboard.",
+        fr:"Les gestionnaires enregistrent chaque paiement reçu. Le système calcule automatiquement les soldes restants et affiche un tableau de bord du taux de recouvrement en temps réel."}
+  },
+  {
+    q: {en:"Can parents download report cards?", fr:"Les parents peuvent-ils télécharger les bulletins ?"},
+    a: {en:"Yes — parents can log in anytime and download their child's official PDF report card. Directors can also bulk-download an entire class as a ZIP.",
+        fr:"Oui — les parents peuvent se connecter à tout moment et télécharger le bulletin PDF officiel de leur enfant. Les directeurs peuvent aussi télécharger toute une classe en ZIP."}
+  },
+  {
+    q: {en:"Is my school's data isolated from others?", fr:"Les données de mon école sont-elles isolées des autres ?"},
+    a: {en:"Completely. The platform is multi-tenant by design — every request is filtered by a unique school_id, so no school can ever access another's data.",
+        fr:"Complètement. La plateforme est multi-tenant par conception — chaque requête est filtrée par un school_id unique, aucune école ne peut accéder aux données d'une autre."}
+  },
+  {
+    q: {en:"What technology powers the platform?", fr:"Quelle technologie alimente la plateforme ?"},
+    a: {en:"React.js for the frontend, Node.js/Express for the backend, MongoDB and Supabase for data and auth, all containerized with Docker.",
+        fr:"React.js pour le frontend, Node.js/Express pour le backend, MongoDB et Supabase pour les données et l'authentification, le tout conteneurisé avec Docker."}
+  },
+  {
+    q: {en:"Is there a free trial?", fr:"Y a-t-il un essai gratuit ?"},
+    a: {en:"Yes, every new school gets a 30-day free Pro trial with no credit card required.",
+        fr:"Oui, chaque nouvelle école bénéficie d'un essai gratuit de 30 jours au plan Pro, sans carte bancaire."}
+  },
+  {
+    q: {en:"How are new staff accounts created?", fr:"Comment crée-t-on les comptes du personnel ?"},
+    a: {en:"Directors create accounts for managers and teachers from their dashboard. Initial credentials are shared securely via WhatsApp.",
+        fr:"Les directeurs créent les comptes des gestionnaires et professeurs depuis leur tableau de bord. Les identifiants initiaux sont partagés de façon sécurisée via WhatsApp."}
+  },
+  {
+    q: {en:"How can I contact your team?", fr:"Comment puis-je contacter votre équipe ?"},
+    a: {en:"You can email us at albertkintsodiza@gmail.com, call +242 06 539 5923, or visit us in Brazzaville, Congo.",
+        fr:"Vous pouvez nous écrire à albertkintsodiza@gmail.com, nous appeler au +242 06 539 5923, ou nous rendre visite à Brazzaville, Congo."}
+  },
+  {
+    q: {en:"Where can I try the app?", fr:"Où puis-je essayer l'application ?"},
+    a: {en:"You can access the live app at bana-tech-projet-school.vercel.app/login and start your 30-day free trial right away.",
+        fr:"Vous pouvez accéder à l'application en ligne sur bana-tech-projet-school.vercel.app/login et démarrer votre essai gratuit de 30 jours dès maintenant."}
+  }
+];
+
+function lang(){ return document.documentElement.getAttribute('data-lang'); }
+
+function renderSuggestions(){
+  const box = document.getElementById('chat-suggestions');
+  const l = lang();
+  box.innerHTML = `<div class="sugg-label">${l==='en'?'Suggested questions':'Questions suggérées'}</div>`;
+  const picks = FAQ.slice(0,3);
+  picks.forEach(item=>{
+    const btn = document.createElement('button');
+    btn.className = 'sugg-btn';
+    btn.textContent = item.q[l];
+    btn.onclick = ()=> askFaq(item);
+    box.appendChild(btn);
+  });
+}
+
+function toggleChat(){
+  const win = document.getElementById('chat-window');
+  const btn = document.getElementById('chat-toggle');
+  win.classList.toggle('open');
+  btn.classList.toggle('open');
+  if(win.classList.contains('open')) renderSuggestions();
+}
+
+function appendMsg(text, who){
+  const body = document.getElementById('chat-body');
+  const d = document.createElement('div');
+  d.className = 'msg ' + (who==='user' ? 'msg-user' : 'msg-bot');
+  d.textContent = text;
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+  return d;
+}
+
+function showTyping(){
+  const body = document.getElementById('chat-body');
+  const d = document.createElement('div');
+  d.className = 'msg msg-bot typing';
+  d.id = 'typing-indicator';
+  d.innerHTML = '<span></span><span></span><span></span>';
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+}
+function hideTyping(){
+  const t = document.getElementById('typing-indicator');
+  if(t) t.remove();
+}
+
+function askFaq(item){
+  const l = lang();
+  appendMsg(item.q[l], 'user');
+  showTyping();
+  setTimeout(()=>{
+    hideTyping();
+    appendMsg(item.a[l], 'bot');
+  }, 700);
+}
+
+function matchFaq(text){
+  const l = lang();
+  const lower = text.toLowerCase();
+  let best = null, bestScore = 0;
+  FAQ.forEach(item=>{
+    const words = item.q[l].toLowerCase().split(/\W+/).filter(w=>w.length>3);
+    let score = 0;
+    words.forEach(w=>{ if(lower.includes(w)) score++; });
+    if(score > bestScore){ bestScore = score; best = item; }
+  });
+  return bestScore > 0 ? best : null;
+}
+
+function sendChat(){
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  const l = lang();
+  appendMsg(text, 'user');
+  input.value = '';
+  showTyping();
+  setTimeout(()=>{
+    hideTyping();
+    const match = matchFaq(text);
+    if(match){
+      appendMsg(match.a[l], 'bot');
+    } else {
+      appendMsg(
+        l==='en'
+          ? "I don't have a preset answer for that yet. Try one of the suggested questions, or contact our team for more details."
+          : "Je n'ai pas encore de réponse pour ça. Essayez une question suggérée, ou contactez notre équipe pour plus de détails.",
+        'bot'
+      );
+    }
+  }, 700);
+}
+
+document.getElementById('chat-input').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') sendChat();
+});
+
+document.getElementById('chat-input').placeholder = 'Ask a question…';
+</script>
+
+</body>
+</html>
