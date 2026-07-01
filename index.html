@@ -262,6 +262,24 @@ section{padding:6rem 2.5rem;}
 .sec-card h4{font-family:'Space Grotesk';font-size:1rem;font-weight:600;margin-bottom:0.5rem;}
 .sec-card p{font-size:0.86rem;color:var(--muted);}
 
+/* ===== COMPARISON ===== */
+#comparison{background:var(--white);}
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.cmp-col{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+.cmp-header{padding:1.2rem 1.4rem;font-family:'Space Grotesk';font-weight:700;font-size:1rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);}
+.cmp-header.traditional{background:#FEF3C7;color:#92400E;}
+.cmp-header.banatech{background:var(--signal-soft);color:var(--signal);}
+.cmp-body{padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1rem;}
+.cmp-item{display:flex;align-items:center;gap:12px;}
+.cmp-item svg{flex-shrink:0;}
+.cmp-item-text{flex:1;}
+.cmp-item-title{font-weight:600;font-size:0.88rem;margin-bottom:1px;}
+.cmp-item-desc{font-size:0.78rem;color:var(--muted);}
+.cmp-badge{font-size:0.68rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:100px;}
+.cmp-badge.warn{background:#FEF3C7;color:#92400E;}
+.cmp-badge.ok{background:var(--ok-soft);color:#065F46;}
+.cmp-img{width:100%;height:auto;border-radius:8px;background:var(--white);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;padding:1rem;}
+
 /* ===== STACK STRIP ===== */
 #stack{background:var(--paper-dim);}
 .stack-row{display:flex;flex-wrap:wrap;gap:0.7rem;}
@@ -438,6 +456,26 @@ footer{padding:3.2rem 2.5rem 0;border-top:1px solid var(--line);}
 .typing span:nth-child(3){animation-delay:.4s;}
 @keyframes tdot{0%,60%,100%{opacity:0.3;}30%{opacity:1;}}
 
+/* ===== BEFORE/AFTER SLIDER ===== */
+.cmp-slider-wrap{position:relative;width:100%;max-width:800px;margin:0 auto;user-select:none;}
+.cmp-slider-img{display:block;width:100%;height:auto;border-radius:12px;pointer-events:none;}
+.cmp-slider-overlay{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;overflow:hidden;}
+.cmp-slider-overlay img{display:block;width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;}
+.cmp-slider-clip{position:absolute;top:0;left:0;width:50%;height:100%;overflow:hidden;border-radius:12px 0 0 12px;}
+.cmp-slider-handle{position:absolute;top:0;left:50%;width:4px;height:100%;background:var(--white);cursor:ew-resize;transform:translateX(-2px);z-index:10;box-shadow:0 0 12px rgba(0,0,0,0.35);}
+.cmp-slider-handle::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;}
+.cmp-slider-handle::after{content:'⇔';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;font-weight:700;color:var(--ink);z-index:2;line-height:1;}
+.cmp-slider-label{position:absolute;bottom:16px;padding:6px 14px;border-radius:8px;font-size:0.78rem;font-weight:700;letter-spacing:0.03em;pointer-events:none;z-index:5;}
+.cmp-slider-label.left{left:16px;background:#FEF3C7;color:#92400E;}
+.cmp-slider-label.right{right:16px;background:var(--signal-soft);color:var(--signal);}
+.cmp-slider-drag-hint{text-align:center;margin-top:10px;font-size:0.82rem;color:var(--muted);}
+.cmp-mobile-stack{display:none;}
+@media(max-width:720px){
+  .cmp-slider-wrap{display:none;}
+  .cmp-mobile-stack{display:grid;grid-template-columns:1fr;gap:1.4rem;}
+  .cmp-mobile-stack .cmp-col{max-width:100%;}
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width:980px){
   .hero{grid-template-columns:1fr;padding:3.5rem 1.4rem;}
@@ -464,6 +502,7 @@ footer{padding:3.2rem 2.5rem 0;border-top:1px solid var(--line);}
   <div class="nav-center">
     <a href="#how"><span data-i18n-en>How it works</span><span data-i18n-fr>Fonctionnement</span></a>
     <a href="#product"><span data-i18n-en>Product</span><span data-i18n-fr>Produit</span></a>
+    <a href="#comparison"><span data-i18n-en>Comparison</span><span data-i18n-fr>Comparaison</span></a>
     <a href="#security"><span data-i18n-en>Security</span><span data-i18n-fr>Sécurité</span></a>
     <a href="#stack"><span data-i18n-en>Stack</span><span data-i18n-fr>Technologie</span></a>
     <a href="#pricing"><span data-i18n-en>Pricing</span><span data-i18n-fr>Tarifs</span></a>
@@ -693,6 +732,131 @@ footer{padding:3.2rem 2.5rem 0;border-top:1px solid var(--line);}
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="comparison">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-eyebrow"><span data-i18n-en>Comparison</span><span data-i18n-fr>Comparaison</span></div>
+      <h2 class="s-title"><span data-i18n-en>Traditional vs BanaTech School</span><span data-i18n-fr>Méthode traditionnelle vs BanaTech School</span></h2>
+      <p class="s-sub"><span data-i18n-en>Slide to see the difference between old-school methods and a modern digital platform.</span><span data-i18n-fr>Glissez pour voir la différence entre les méthodes anciennes et une plateforme numérique moderne.</span></p>
+    </div>
+
+    <!-- DESKTOP: slider -->
+    <div class="cmp-slider-wrap" id="cmpSlider">
+      <div class="cmp-slider-clip" id="cmpClip">
+        <img src="assets/traditional-ledger.jpg" alt="Traditional method" class="cmp-slider-img" style="width:800px;max-width:none;">
+      </div>
+      <div class="cmp-slider-overlay" id="cmpOverlay">
+        <svg width="800" height="500" viewBox="0 0 800 500" style="width:100%;height:auto;display:block;background:var(--ink-soft);border-radius:12px;">
+          <defs>
+            <linearGradient id="dashGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3D5AFE"/>
+              <stop offset="100%" stop-color="#5B72FF"/>
+            </linearGradient>
+          </defs>
+          <rect width="800" height="500" fill="var(--ink)" rx="12"/>
+          <!-- Top bar -->
+          <rect x="0" y="0" width="800" height="56" fill="var(--ink-soft)" rx="12"/>
+          <rect x="0" y="38" width="800" height="18" fill="var(--ink-soft)"/>
+          <circle cx="24" cy="28" r="6" fill="#FF5F57"/>
+          <circle cx="44" cy="28" r="6" fill="#FEBC2E"/>
+          <circle cx="64" cy="28" r="6" fill="#28C840"/>
+          <text x="400" y="33" text-anchor="middle" fill="#7A8BA6" font-size="13" font-family="Inter">BanaTech School — Dashboard</text>
+          <!-- Sidebar -->
+          <rect x="0" y="56" width="180" height="444" fill="rgba(255,255,255,0.04)"/>
+          <rect x="16" y="76" width="40" height="8" rx="4" fill="#5B72FF"/>
+          <text x="66" y="83" fill="#7A8BA6" font-size="11" font-family="Inter">Dashboard</text>
+          <text x="16" y="108" fill="#4B5563" font-size="11" font-family="Inter">Students</text>
+          <text x="16" y="130" fill="#4B5563" font-size="11" font-family="Inter">Finance</text>
+          <text x="16" y="152" fill="#4B5563" font-size="11" font-family="Inter">Reports</text>
+          <!-- Stats cards -->
+          <rect x="200" y="74" width="180" height="90" rx="10" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.2)" stroke-width="1"/>
+          <text x="216" y="100" fill="#10B981" font-size="22" font-family="Space Grotesk" font-weight="700">342</text>
+          <text x="216" y="118" fill="#7A8BA6" font-size="10" font-family="Inter">Active Students</text>
+          <text x="216" y="134" fill="#10B981" font-size="10" font-family="Inter">↑ 12% vs last term</text>
+          <rect x="400" y="74" width="180" height="90" rx="10" fill="rgba(61,90,254,0.1)" stroke="rgba(61,90,254,0.2)" stroke-width="1"/>
+          <text x="416" y="100" fill="#5B72FF" font-size="22" font-family="Space Grotesk" font-weight="700">92%</text>
+          <text x="416" y="118" fill="#7A8BA6" font-size="10" font-family="Inter">Collection Rate</text>
+          <text x="416" y="134" fill="#5B72FF" font-size="10" font-family="Inter">↑ 5% improvement</text>
+          <rect x="600" y="74" width="180" height="90" rx="10" fill="rgba(251,191,36,0.1)" stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+          <text x="616" y="100" fill="#FBBF24" font-size="22" font-family="Space Grotesk" font-weight="700">15.4</text>
+          <text x="616" y="118" fill="#7A8BA6" font-size="10" font-family="Inter">Class Avg Grade</text>
+          <text x="616" y="134" fill="#FBBF24" font-size="10" font-family="Inter">/ 20</text>
+          <!-- Table -->
+          <rect x="200" y="182" width="580" height="300" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          <text x="216" y="208" fill="#C8D0E0" font-size="13" font-family="Inter" font-weight="600">Recent Students</text>
+          <rect x="216" y="218" width="548" height="1" fill="rgba(255,255,255,0.06)"/>
+          <text x="216" y="240" fill="#7A8BA6" font-size="10" font-family="Inter">Name</text>
+          <text x="370" y="240" fill="#7A8BA6" font-size="10" font-family="Inter">Class</text>
+          <text x="490" y="240" fill="#7A8BA6" font-size="10" font-family="Inter">Avg</text>
+          <text x="610" y="240" fill="#7A8BA6" font-size="10" font-family="Inter">Status</text>
+          <rect x="216" y="250" width="548" height="1" fill="rgba(255,255,255,0.04)"/>
+          <text x="216" y="270" fill="#D5DAE6" font-size="11" font-family="Inter">Marie K. Ngoma</text><text x="370" y="270" fill="#7A8BA6" font-size="11" font-family="Inter">5A</text><text x="490" y="270" fill="#10B981" font-size="11" font-family="Inter">16.2</text>
+          <rect x="600" y="260" width="50" height="18" rx="9" fill="rgba(16,185,129,0.15)"/><text x="625" y="273" text-anchor="middle" fill="#10B981" font-size="9" font-family="Inter" font-weight="600">PASS</text>
+          <text x="216" y="294" fill="#D5DAE6" font-size="11" font-family="Inter">Jean-Claude R.</text><text x="370" y="294" fill="#7A8BA6" font-size="11" font-family="Inter">5A</text><text x="490" y="294" fill="#10B981" font-size="11" font-family="Inter">14.8</text>
+          <rect x="600" y="284" width="50" height="18" rx="9" fill="rgba(16,185,129,0.15)"/><text x="625" y="297" text-anchor="middle" fill="#10B981" font-size="9" font-family="Inter" font-weight="600">PASS</text>
+          <text x="216" y="318" fill="#D5DAE6" font-size="11" font-family="Inter">Aminata S. Diallo</text><text x="370" y="318" fill="#7A8BA6" font-size="11" font-family="Inter">6B</text><text x="490" y="318" fill="#FBBF24" font-size="11" font-family="Inter">10.3</text>
+          <rect x="600" y="308" width="60" height="18" rx="9" fill="rgba(251,191,36,0.15)"/><text x="630" y="321" text-anchor="middle" fill="#FBBF24" font-size="9" font-family="Inter" font-weight="600">REVIEW</text>
+          <text x="216" y="342" fill="#7A8BA6" font-size="11" font-family="Inter">...</text>
+        </svg>
+      </div>
+      <div class="cmp-slider-handle" id="cmpHandle"></div>
+      <div class="cmp-slider-label left"><span data-i18n-en>Traditional</span><span data-i18n-fr>Traditionnel</span></div>
+      <div class="cmp-slider-label right"><span data-i18n-en>BanaTech</span><span data-i18n-fr>BanaTech</span></div>
+    </div>
+    <div class="cmp-slider-drag-hint">
+      <span data-i18n-en>⇔ Drag the slider to compare</span>
+      <span data-i18n-fr>⇔ Faites glisser le curseur pour comparer</span>
+    </div>
+
+    <!-- MOBILE: stacked cards -->
+    <div class="cmp-mobile-stack">
+      <div class="cmp-col">
+        <div class="cmp-header traditional">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span data-i18n-en>Traditional Method</span><span data-i18n-fr>Méthode traditionnelle</span>
+        </div>
+        <div class="cmp-body">
+          <img src="assets/traditional-ledger.jpg" alt="Traditional" style="width:100%;border-radius:8px;border:1px solid var(--line);">
+        </div>
+      </div>
+      <div class="cmp-col">
+        <div class="cmp-header banatech">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3D5AFE" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 12l2 2 4-4"/></svg>
+          <span data-i18n-en>BanaTech School</span><span data-i18n-fr>BanaTech School</span>
+        </div>
+        <div class="cmp-body">
+          <svg width="100%" height="200" viewBox="0 0 800 500" style="display:block;background:var(--ink);border-radius:8px;">
+            <rect width="800" height="500" fill="var(--ink)" rx="8"/>
+            <rect x="0" y="0" width="800" height="40" fill="var(--ink-soft)" rx="8"/>
+            <rect x="0" y="26" width="800" height="14" fill="var(--ink-soft)"/>
+            <circle cx="20" cy="20" r="4" fill="#FF5F57"/>
+            <circle cx="34" cy="20" r="4" fill="#FEBC2E"/>
+            <circle cx="48" cy="20" r="4" fill="#28C840"/>
+            <text x="400" y="25" text-anchor="middle" fill="#7A8BA6" font-size="10" font-family="Inter">BanaTech Dashboard</text>
+            <rect x="12" y="52" width="120" height="60" rx="6" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.2)" stroke-width="1"/>
+            <text x="24" y="72" fill="#10B981" font-size="14" font-family="Space Grotesk" font-weight="700">342</text>
+            <text x="24" y="88" fill="#7A8BA6" font-size="8" font-family="Inter">Students</text>
+            <rect x="144" y="52" width="120" height="60" rx="6" fill="rgba(61,90,254,0.1)" stroke="rgba(61,90,254,0.2)" stroke-width="1"/>
+            <text x="156" y="72" fill="#5B72FF" font-size="14" font-family="Space Grotesk" font-weight="700">92%</text>
+            <text x="156" y="88" fill="#7A8BA6" font-size="8" font-family="Inter">Collection</text>
+            <rect x="276" y="52" width="120" height="60" rx="6" fill="rgba(251,191,36,0.1)" stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+            <text x="288" y="72" fill="#FBBF24" font-size="14" font-family="Space Grotesk" font-weight="700">15.4</text>
+            <text x="288" y="88" fill="#7A8BA6" font-size="8" font-family="Inter">Avg Grade</text>
+            <rect x="12" y="126" width="384" height="60" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <text x="24" y="146" fill="#D5DAE6" font-size="9" font-family="Inter">Marie K. Ngoma — 5A — 16.2</text>
+            <rect x="280" y="136" width="40" height="14" rx="7" fill="rgba(16,185,129,0.15)"/><text x="300" y="146" text-anchor="middle" fill="#10B981" font-size="7" font-family="Inter" font-weight="600">PASS</text>
+            <text x="24" y="164" fill="#D5DAE6" font-size="9" font-family="Inter">Jean-Claude R. — 5A — 14.8</text>
+            <rect x="280" y="154" width="40" height="14" rx="7" fill="rgba(16,185,129,0.15)"/><text x="300" y="164" text-anchor="middle" fill="#10B981" font-size="7" font-family="Inter" font-weight="600">PASS</text>
+            <text x="24" y="182" fill="#7A8BA6" font-size="9" font-family="Inter">Aminata S. — 6B — 10.3</text>
+            <rect x="280" y="172" width="46" height="14" rx="7" fill="rgba(251,191,36,0.15)"/><text x="303" y="182" text-anchor="middle" fill="#FBBF24" font-size="7" font-family="Inter" font-weight="600">REVIEW</text>
+          </svg>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1132,6 +1296,41 @@ document.getElementById('chat-input').addEventListener('keydown', function(e){
 });
 
 document.getElementById('chat-input').placeholder = 'Ask a question…';
+
+/* ===== COMPARISON SLIDER ===== */
+(function(){
+  const wrap = document.getElementById('cmpSlider');
+  if(!wrap) return;
+  const clip = document.getElementById('cmpClip');
+  const handle = document.getElementById('cmpHandle');
+  let dragging = false;
+
+  function setPos(pct){
+    pct = Math.max(8, Math.min(92, pct));
+    clip.style.width = pct + '%';
+    handle.style.left = pct + '%';
+  }
+
+  function onMove(e){
+    if(!dragging) return;
+    const rect = wrap.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    setPos((x / rect.width) * 100);
+  }
+
+  handle.addEventListener('mousedown', function(e){ e.preventDefault(); dragging = true; });
+  handle.addEventListener('touchstart', function(e){ e.preventDefault(); dragging = true; });
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', function(){ dragging = false; });
+  document.addEventListener('touchmove', onMove, {passive:true});
+  document.addEventListener('touchend', function(){ dragging = false; });
+
+  wrap.addEventListener('click', function(e){
+    const rect = wrap.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    setPos((x / rect.width) * 100);
+  });
+})();
 </script>
 
 </body>
